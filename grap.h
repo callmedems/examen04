@@ -1,31 +1,23 @@
-#ifdef GRAP_H
-#define GRAP_H
-#include <iostream> 
+#ifndef GRAPH_H
+#define GRAPH_H
+
+#include <iostream>
 #include <unordered_map>
 #include <vector>
 #include <string>
 #include <set>
-using namespace std; 
+
+using namespace std;
 
 class Graph {
 public:
-    // Agrega un nuevo usuario al grafo sin conexiones iniciales.
-    void addUser(const std::string& usuario);
-
-    // Agrega una conexión (amistad) entre dos usuarios.
-    void addEdge(const std::string& usuario1, const std::string& usuario2);
-
-    // Realiza una búsqueda en amplitud y devuelve todos los amigos de un usuario.
-    std::set<std::string> bfs(const std::string& usuario) const;
-
-    // Verifica si un usuario existe en el grafo.
-    bool userExists(const std::string& usuario) const;
+    void addUser(const string& usuario); //usuario 
+    void addfrien(const string& usuario1, const string& usuario2);//agregar amistad
+    set<string> bfs(const string& usuario) const; //algortimo bfs
+    bool existe (const string& usuario) const;//usuario dentro del grafo
 
 private:
-    // Lista de adyacencia para representar las relaciones de amistad.
-    std::unordered_map<std::string, std::vector<std::string>> adjList;
+    unordered_map<string, vector<string>> adjList;// estructura del grafo 
 };
-
-#endif // GRAPH_H
 
 #endif
