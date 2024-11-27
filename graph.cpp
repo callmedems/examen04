@@ -56,15 +56,16 @@ set<string> Graph::bfs(const string& usuario) const {
 
     // Remueve el usuario inicial
     visitados.erase(usuario);
+return visitados;
+}
     vector<string> Graph::veramigos(const string& usuario) const {
     auto it = adjList.find(usuario);
     if (it != adjList.end()) {
-        return it->second; // Retorna los amigos del usuario.
+        return it->second;
     } else {
-        return {}; // Retorna un vector vacío si el usuario no existe.
+        return {}; // vector vacío
     }
 }
 
-    return visitados;
-}
+
 
