@@ -7,7 +7,7 @@
 #include <vector>
 
 using namespace std; 
-
+ 
 class ContentManager{
     public: 
         // con esto agregamos contenido a una categoría específica
