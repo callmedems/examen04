@@ -10,8 +10,8 @@ bool UserManager::addUser(const std::string& usuario) {
 
 //Lo mismo pero ahora para añadir intereses y recibiendo como parámetros usuario y categoría, en caso de no encontrar al usuario devuelve false
 bool UserManager::addInterest(const std::string& usuario, const std::string& categoria) {
-    auto it = interesesPorUsuario.find(usuario);
-    if (it != interesesPorUsuario.end()) {
+    auto it = interesesPorUsuario.find(usuario); // Usa find para buscar si el usuario existe en el mapa
+    if (it != interesesPorUsuario.end()) { //Si el usuario existe... se inserta la categoria en el conjunto asociado al usuario (se asume que el mapa acepta insert)
         it->second.insert(categoria);
         return true;
     }
@@ -21,7 +21,7 @@ bool UserManager::addInterest(const std::string& usuario, const std::string& cat
 //Con esta funcion obtenemos la lista de intereses de un usuario, devuelve un vector vacio en caso de no encontrar al usuarip
 std::vector<std::string> UserManager::getInterests(const std::string& usuario) const {
     std::vector<std::string> intereses;
-    auto it = interesesPorUsuario.find(usuario);
+    auto it = interesesPorUsuario.find(usuario); // it es la variable que actúa como iterador y permite recorrer el mapa o vector a manera de iterador, permite recorrer o acceder a elementos
     if (it != interesesPorUsuario.end()) {
         intereses.assign(it->second.begin(), it->second.end());
     }
