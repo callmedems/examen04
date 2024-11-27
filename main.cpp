@@ -1,10 +1,11 @@
-// main donde está el menu
-#include <iostream> 
+// llamamos a todas las funciones
+#include "RecommendationSystem.h"
 
-using namespace std; 
+// declaración de la función showMenu
+void showMenu(RecommendationSystem& sistema);
 
 int main() {
-
-
-    return 0; 
+    RecommendationSystem sistema;
+    showMenu(sistema);
+    return 0;
 }
