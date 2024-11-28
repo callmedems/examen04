@@ -1,3 +1,4 @@
+
 #ifndef USERMANAGER_H
 #define USERMANAGER_H
 
@@ -5,6 +6,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <string>
 
 class UserManager {
 public:
@@ -20,9 +22,11 @@ public:
     // Este booleano verifica que un usuario exista o no, se guarda el usuario como constante
     bool userExists(const std::string& usuario) const;
 
+    std::vector<std::string> getAllUsers() const;
+
 private:
     // Se ubica a cada usuario en el hash map y se conecta con sus intereses
     std::unordered_map<std::string, std::set<std::string>> interesesPorUsuario;
 };
 
-#endif 
+#endif
