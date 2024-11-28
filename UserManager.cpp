@@ -1,12 +1,20 @@
+
 #include "UserManager.h"
 
 //Esta funcion booleana se encarga de añadir usuarios al sistema y devuelve true si se hace exitosamente, false en caso contrario, como por ejemplo, que ya exista
 
 bool UserManager::addUser(const std::string& usuario) {
     auto resultado = interesesPorUsuario.emplace(usuario, std::set<std::string>());
-    return resultado.second; 
+    return resultado.second;
 }
 
+std::vector<std::string> UserManager::getAllUsers() const {
+    std::vector<std::string> usuarios;
+    for (const auto& pair : interesesPorUsuario) {
+        usuarios.push_back(pair.first);
+    }
+    return usuarios;
+}
 
 //Lo mismo pero ahora para añadir intereses y recibiendo como parámetros usuario y categoría, en caso de no encontrar al usuario devuelve false
 bool UserManager::addInterest(const std::string& usuario, const std::string& categoria) {
@@ -15,7 +23,7 @@ bool UserManager::addInterest(const std::string& usuario, const std::string& cat
         it->second.insert(categoria);
         return true;
     }
-    return false; 
+    return false;
 }
 
 //Con esta funcion obtenemos la lista de intereses de un usuario, devuelve un vector vacio en caso de no encontrar al usuarip
