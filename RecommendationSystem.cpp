@@ -1,4 +1,6 @@
 #include "RecommendationSystem.h"
+#include <set>
+#include <algorithm>
 using namespace std;
 // Constructor
 RecommendationSystem::RecommendationSystem() {
@@ -13,7 +15,9 @@ bool RecommendationSystem::addUser(const string& usuario) {
     }
     return userAdded;
 }
-
+std::vector<std::string> RecommendationSystem::getFriends(const std::string& usuario) const {
+    return graph.getFriends(usuario);
+}
 // Agrega contenido a una categoría específica.
 void RecommendationSystem::addContent(const string& categoria, const string& contenido) {
     contentManager.addContent(categoria, contenido);
@@ -73,4 +77,56 @@ vector<string> RecommendationSystem::recommendContent(const string& usuario) {
 // Verifica si un usuario existe en el sistema.
 bool RecommendationSystem::userExists(const string& usuario) const {
     return userManager.userExists(usuario);
+}
+
+std::vector<std::string> RecommendationSystem::suggestFriends(const std::string& usuario) const {
+    std::vector<std::string> sugerencias;
+
+    // Verifica si el usuario existe
+    if (!userManager.userExists(usuario)) {
+        return sugerencias; // Retorna una lista vacía si el usuario no existe
+    }
+
+    // Obtiene los intereses del usuario
+    auto interesesUsuarioVector = userManager.getInterests(usuario);
+    if (interesesUsuarioVector.empty()) {
+        // Si el usuario no tiene intereses, no puede haber sugerencias basadas en intereses
+        return sugerencias;
+    }
+
+    std::set<std::string> interesesUsuario(interesesUsuarioVector.begin(), interesesUsuarioVector.end());
+
+    // Obtiene los amigos actuales del usuario
+    std::set<std::string> amigosActuales = graph.bfs(usuario);
+    amigosActuales.insert(usuario); // Incluimos al usuario para excluirlo de las sugerencias
+
+    // Obtiene todos los usuarios en el sistema
+    std::vector<std::string> todosUsuarios = userManager.getAllUsers();
+
+    // Recorre todos los usuarios para encontrar aquellos con intereses comunes que no sean amigos
+    for (const auto& posibleAmigo : todosUsuarios) {
+        if (amigosActuales.find(posibleAmigo) == amigosActuales.end()) {
+            // No es amigo actual
+            auto interesesAmigoVector = userManager.getInterests(posibleAmigo);
+            if (interesesAmigoVector.empty()) {
+                // Si el posible amigo no tiene intereses, no puede haber intersección
+                continue;
+            }
+
+            std::set<std::string> interesesPosibleAmigo(interesesAmigoVector.begin(), interesesAmigoVector.end());
+
+            // Encuentra la intersección de intereses
+            std::vector<std::string> interesesComunes;
+            std::set_intersection(interesesUsuario.begin(), interesesUsuario.end(),
+                                  interesesPosibleAmigo.begin(), interesesPosibleAmigo.end(),
+                                  std::back_inserter(interesesComunes));
+
+            if (!interesesComunes.empty()) {
+                // Hay intereses comunes, agregar a las sugerencias
+                sugerencias.push_back(posibleAmigo);
+            }
+        }
+    }
+
+    return sugerencias;
 }

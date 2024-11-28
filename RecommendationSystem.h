@@ -1,3 +1,4 @@
+
 #ifndef RECOMMENDATIONSYSTEM_H
 #define RECOMMENDATIONSYSTEM_H
 
@@ -27,11 +28,17 @@ public:
     // Agrega un interés (categoría) a un usuario existente
     bool addInterest(const string& usuario, const string& categoria);
 
+    std::vector<std::string> getFriends(const std::string& usuario) const;
+
     // Genera una lista de contenido recomendado para un usuario
     vector<string> recommendContent(const string& usuario);
 
     // Verifica si un usuario existe en el sistema.
     bool userExists(const string& usuario) const;
+
+    // Sugiere nuevos amigos basados en intereses comunes.
+    std::vector<std::string> suggestFriends(const std::string& usuario) const;
+
 
 private:
     ContentManager contentManager;
@@ -39,4 +46,4 @@ private:
     Graph graph;
 };
 
-#endif 
+#endif
