@@ -24,7 +24,7 @@ void Graph::addfriend(const string& usuario1, const string& usuario2) {
     adjList[usuario2].push_back(usuario1);
 }
 
-bool Graph::exist(const string& usuario) const {//user exoste en el grafo
+bool Graph::exist(const string& usuario) const {//user existe en el grafo
     return adjList.find(usuario) != adjList.end();
 }
 
@@ -58,14 +58,29 @@ set<string> Graph::bfs(const string& usuario) const {
     visitados.erase(usuario);
 return visitados;
 }
-    vector<string> Graph::veramigos(const string& usuario) const {
+   std::vector<std::string> Graph::getFriends(const std::string& usuario) const {
     auto it = adjList.find(usuario);
     if (it != adjList.end()) {
         return it->second;
     } else {
-        return {}; // vector vacío
+        return {}; // Retorna un vector vacío si el usuario no existe.
     }
 }
+
+void Graph::addEdge(const std::string& usuario1, const std::string& usuario2) {
+    // Asegura que ambos usuarios existan en el grafo.
+    if (!exist(usuario1)) {
+        addUser(usuario1);
+    }
+    if (!exist(usuario2)) {
+        addUser(usuario2);
+    }
+
+    // Agrega la conexión bidireccional.
+    adjList[usuario1].push_back(usuario2);
+    adjList[usuario2].push_back(usuario1);
+}
+
 
 
 
